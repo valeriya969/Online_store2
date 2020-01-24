@@ -72,10 +72,11 @@ public class Product  {
 
     @Override
     public String toString() {
-        return "entity.Product{" +
-                "name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", rating='" + rating + '\'' +
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", rating=" + rating +
                 '}';
     }
 }

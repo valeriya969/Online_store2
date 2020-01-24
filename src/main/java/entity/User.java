@@ -6,24 +6,25 @@ public class User {
     private int id;
     private String login;
     private String password;
-    private Basket basketUser;
+    private OrderItem orderItem;
+
+    public User() {
+    }
 
     public User(int id, String login) {
         this.id = id;
         this.login = login;
     }
 
-    public User(String login, String password, Basket basketUser) {
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
-        this.basketUser = basketUser;
     }
 
-    public User(int id, String login, String password, Basket basketUser) {
-        this.id = id;
+    public User(String login, String password, OrderItem orderItem) {
         this.login = login;
         this.password = password;
-        this.basketUser = basketUser;
+        this.orderItem = orderItem;
     }
 
     public int getId() {
@@ -50,12 +51,12 @@ public class User {
         this.password = password;
     }
 
-    public Basket getBasketUser() {
-        return basketUser;
+    public OrderItem getOrderItem() {
+        return orderItem;
     }
 
-    public void setBasketUser(Basket basketUser) {
-        this.basketUser = basketUser;
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
     }
 
     @Override
@@ -63,25 +64,24 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(basketUser, user.basketUser);
+        return id == user.id &&
+                orderItem == user.orderItem &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        int result = login != null ? login.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (basketUser != null ? basketUser.hashCode() : 0);
-        return result;
+        return Objects.hash(id, login, password, orderItem);
     }
 
     @Override
     public String toString() {
-        return "entity.User{" +
-                "login='" + login + '\'' +
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", orderItem=" + orderItem +
                 '}';
     }
-
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class CategoryDAO extends AbstractDAO<Category,Integer> {
     public static final String SQL_SELECT_ALL_CATEGORIES = "SELECT * FROM categories";
     public static final String SQL_SELECT_CATEGORY_ID =
-            "SELECT * FROM users WHERE id=?";
+            "SELECT * FROM categories WHERE id=?";
 
     @Override
     public List<Category> findAll() {
@@ -21,16 +21,15 @@ public class CategoryDAO extends AbstractDAO<Category,Integer> {
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
-               categories.add(new Category(id, name));
+                String sex = rs.getString(3);
+               categories.add(new Category(id, name, sex));
             }
         } catch (SQLException e) {
             System.err.println("SQL Exception (request or table failed):" + e);
         }
         return categories;
-
     }
 
-    @Override
     public Category findEntityById(Integer id) {
         Category category = null;
         try (Connection connection = ConnectorDB.getConnection();
@@ -47,10 +46,5 @@ public class CategoryDAO extends AbstractDAO<Category,Integer> {
             System.err.println("SQL Exception (request or table failed):" + e);
         }
         return category;
-    }
-
-    @Override
-    public boolean create(Category entity) {
-        return super.create(entity);
     }
 }

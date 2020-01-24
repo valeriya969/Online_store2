@@ -1,5 +1,6 @@
 package dao;
 
+import entity.OrderItem;
 import entity.User;
 import jdbc.ConnectorDB;
 
@@ -50,16 +51,22 @@ public class UserDAO extends AbstractDAO<User,Integer> {
 
     public static final String INSERT_QUERY =
             "INSERT INTO users (login, password) VALUES (?,?)";
-    @Override
-    public void update(User entity) {
+
+    public void updateUser(User entity) {
         try (Connection connection = ConnectorDB.getConnection();
-             PreparedStatement preparedStatement=connection.prepareStatement(INSERT_QUERY)){
+             PreparedStatement preparedStatement=connection.prepareStatement(INSERT_QUERY,Statement.RETURN_GENERATED_KEYS)){
             preparedStatement.setString(1,entity.getLogin());
             preparedStatement.setString(2,entity.getPassword());
             preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next()){
+                entity.setId(resultSet.getInt(1));
+                entity.getOrderItem().setId(resultSet.getInt(1));
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 }
